@@ -37,6 +37,11 @@ Note `Target` is `1`, not `2`. Using `2` selects *Reference*.
 - `ElementAssign(container, HighInteger, nil, False)` is the append pattern; `HighInteger` is a defined constant.
 - Script entry points run per selected record (`Process`). One-time setup belongs in `Initialize`.
 
+## Armor Addon (ARMA) models
+
+- `MOD2` is the **Male** biped model and `MOD3` is the **Female** one (first person: `MOD4` male, `MOD5` female). The Gemini brainstorm and its script have these swapped.
+- Either model may be left out in the record definition; what a character of the other gender sees in that case is untested here.
+
 ## Known unknowns
 
 - FormIDs for vanilla records (e.g. components, templates) are not verified here; look them up in FO4Edit on a real load order.
