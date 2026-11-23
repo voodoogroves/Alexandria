@@ -1,0 +1,43 @@
+# FO4 / xEdit scripting reference
+
+Verified against the official xEdit source (`TES5Edit/TES5Edit`, shallow clone at commit `73f919a`, 2026-11-23), mainly `Core/wbDefinitionsFO4.pas`, `Core/wbDefinitionsCommon.pas` and `xEdit/JvI/xejviScriptAdapter*.pas`. Reread the source before trusting this after an xEdit update. Not tested in-game.
+
+## Condition functions (CTDA `Function` index)
+
+| Function | Index | Params |
+|---|---|---|
+| GetItemCount | 47 | base object |
+| GetStageDone | 59 | quest, quest stage |
+| GetInFaction | 71 | faction |
+| GetEquipped | 182 | base object |
+| IsSneaking | 286 | none |
+| HasPerk | 448 | perk |
+| GetPlayerTeammate | 453 | none (no `IsPlayerTeammate` exists in FO4) |
+| HasKeyword | 560 | keyword |
+| WornHasKeyword | 682 | keyword |
+
+## Condition `Type` byte
+
+- Low bits are flags: `1` Or, `2` Use Aliases, `4` Use Global, `8` Use Packdata, `16` Swap Subject and Target.
+- Comparison is `Type and 224`: `0` equal, `32` not equal (by elimination; not read directly), `64` greater, `96` greater-or-equal, `128` less, `160` less-or-equal.
+- So `>= 1` is Type `96` and `== 1` is Type `0`. The OR flag sits on the condition that is OR'd with the one after it.
+
+## Condition `Run On`
+
+`0` Subject, `1` Target, `2` Reference, `3` Combat Target, `4` Linked Reference, `5` Quest Alias, `6` Package Data, `7` Event Data, `8` Command Target, `9` Event Camera Ref, `10` My Killer.
+
+Note `Target` is `1`, not `2`. Using `2` selects *Reference*.
+
+## xEdit Pascal script host
+
+- `AddNewFile` exists; `CreateNewFile` does not.
+- `AddMasterIfMissing(file, masterName)` is built in. Redefining it in a script as a wrapper that calls itself recurses forever.
+- `wbCopyElementToFile(element, file, asNew, asDeepCopy)` exists.
+- `AddNewRecord` was not found in the script adapters; add records with `Add(file, 'SIG', True)` (container `Add`).
+- `ElementAssign(container, HighInteger, nil, False)` is the append pattern; `HighInteger` is a defined constant.
+- Script entry points run per selected record (`Process`). One-time setup belongs in `Initialize`.
+
+## Known unknowns
+
+- FormIDs for vanilla records (e.g. components, templates) are not verified here; look them up in FO4Edit on a real load order.
+- Whether a particular enchantment condition can see the wielder (Subject vs Reference) in-game is untested.
