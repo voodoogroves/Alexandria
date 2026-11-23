@@ -46,6 +46,14 @@ Note `Target` is `1`, not `2`. Using `2` selects *Reference*.
 
 `46` Headband, `47` Eyes, `48` Beard, `49` Mouth, `50` **Neck** (`0x00100000`), `51` **Ring** (`0x00200000`), `52` Scalp, `54` Unnamed. The Gemini brainstorm calls 52 the Ring slot; it is Scalp.
 
+## Vanilla asset paths (checked against `Fallout4 - Meshes.ba2` / `Materials.ba2`, Steam install, 2026-11-22)
+
+- **Slinky (red) dress:** worn meshes `Meshes\Clothes\SlinkyDress\DressF.nif` and `DressM.nif` (a male version exists); material `Materials\Clothes\SlinkyDress\SlinkyDress.BGSM`. There is no `Clothes\RedDress\`.
+- **Tuxedo:** `Meshes\Clothes\Tuxedo\SuitF.nif` / `SuitM.nif`; material `Materials\Clothes\Tuxedo\Tuxedo.BGSM`.
+- **Maxson cape:** worn meshes `Meshes\Armor\KnightUnderArmor\FCapeMaxon.nif` / `MCapeMaxon.nif` (ground object `CapeGO.nif`); one material, `Materials\Armor\KnightUnderArmor\CapeMaxon.BGSM`. Textures are `MaxonCape_d/n/s.DDS`. There is no `MaxonCape.nif`, `MaxonCape.bgsm` or `MaxonCapeClasp.bgsm`.
+- **Pool table:** only `Materials\SetDressing\PoolTable\PoolTable01.BGSM` (whole table, not felt-only). There is no `Props\PoolTable\PoolTableFelt.bgsm` and no `Props\Trophy\` materials.
+- Method: the BA2 name tables, plus reading the `.bgsm` strings inside each `.nif`. A material swap only works on a material the mesh actually references.
+
 ## Known unknowns
 
 - FormIDs for vanilla records (e.g. components, templates) are not verified here; look them up in FO4Edit on a real load order.
