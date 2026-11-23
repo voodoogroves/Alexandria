@@ -54,6 +54,13 @@ Note `Target` is `1`, not `2`. Using `2` selects *Reference*.
 - **Pool table:** only `Materials\SetDressing\PoolTable\PoolTable01.BGSM` (whole table, not felt-only). There is no `Props\PoolTable\PoolTableFelt.bgsm` and no `Props\Trophy\` materials.
 - Method: the BA2 name tables, plus reading the `.bgsm` strings inside each `.nif`. A material swap only works on a material the mesh actually references.
 
+## Vanilla records for the Blade (Fallout4.esm, Steam install, 2026-11-22)
+
+- **Chinese Officer Sword:** `WEAP` `00147BE4` (`ChineseOfficerSword`). The Gemini script's `$000330B8` is wrong.
+- **Armor penetration chain used by the vanilla legendary:** OMOD `001F4426` `mod_Legendary_Weapon_ArmorPenetrating` -> ENCH `001F4425` `enchModArmorPenetration` -> MGEF `001F4423` `ModArmorPenetrationAddPerkEffect` -> PERK `001F4166` `ModArmorPenetrationPerk`, whose single entry point carries actor value `ArmorPenetration` (AVIF `00097341`) and a small float. The numeric strength was not decoded here; read it in xEdit.
+- Other armor-ignoring records exist for armor linings (`mod_armor_*_IgnoreArmor`, `Mod_IgnoreArmor_AV` `00245BA4`).
+- A weapon's own enchantment is its base `EITM`, separate from the legendary OMOD slot (`ap_Legendary`).
+
 ## Known unknowns
 
 - FormIDs for vanilla records (e.g. components, templates) are not verified here; look them up in FO4Edit on a real load order.
