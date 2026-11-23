@@ -99,10 +99,10 @@ Read from each record's `PRPS` properties. "Armor" is the `DamageResist` actor v
 - Method for measuring damage without a mod: select the target by clicking it with the console open, `getav health`, land one hit, `getav health` again; the difference is the damage.
 - The `Lvl...` NPC records (about 3,000 `NPC_` records in total) are leveled templates; the named `Enc...` and `DN...` records are the concrete ones. Full list: ask `Lookup.pas` for `list NPC_`.
 
-## Fallout 4 damage resistance (fallout.wiki, read through a summarising fetch: UNVERIFIED)
+## Fallout 4 damage resistance (formula verified 2026-11-23 against the wiki page)
 
-- **Formula as reported:** `DamageCoeff = min(0.99, (Damage x 0.15 / DamageResist)^0.365)`, damage taken = damage x DamageCoeff. The page's equation did not render in the fetch, so confirm it on the live page ("Damage Resistance (Fallout 4)" on `fallout.wiki`; the Fandom copy blocks automated reads with HTTP 402).
-- Reported examples: damage equal to DR gives about a 50% reduction (10/10, 50/50, 100/100 all about 5/25/50).
+- **Formula (verified; Chris read it on the Fandom "Damage Resistance" page):** `DamageCoeff = max(0.01, min(0.99, (0.15 x Damage / Resistance)^0.365))`, `DamageFinal = Damage x DamageCoeff`. Roughly `0.5 x (Damage/Resistance)^0.365`. The page's rendered equation is the source; fallout.wiki (summary fetches) agreed except for the 0.01 floor. The Fandom copy blocks automated reads with HTTP 402.
+- Examples from the page: damage equal to DR gives about a 50% reduction (10/10, 50/50, 100/100 all about 5/25/50).
 - Armor penetration is reported as a multiplier on the target's DR (e.g. Rifleman rank 5 x 0.7), which matches the perk entry we decoded (`Multiply 1 + Actor Value Mult`). Critical hits ignore armor (the one line read verbatim). Energy resistance is reported as bugged / not reduced in Fallout 4.
 - **Predictions at 32 damage vs DR 40** (from the reported formula): plain about 14.7 per hit; DR x0.7 (stat 30) about 16.8 (+14%); DR 0 (stat 100) about 31.7 (x2.15). For DR 85 the full-penetration ratio is about x2.8.
 
@@ -117,7 +117,7 @@ Spawned `player.placeatme 00106B07` (a Protectron), Strength 10 so both swords s
 | Blade of Bastet TEST100 | 100 | 18 |
 
 - Expected ratios if the chain applied fully: about 1.14 (stat 30) and about 2.15 (stat 100). Observed about 1.0 and 1.2: **an effect smaller than predicted, or noise.** Early impression was a faster-draining health bar. Single runs and random criticals (which ignore armor) make this inconclusive; repeated counts (3 each) and a more heavily armored target are the next steps.
-- Chris's check: 18 swings x 32 damage is about 570, far more than a 100-health target, so the stat-100 build is not zeroing the target's armor (if its health is near 100).
+- Chris's check: 18 swings x 32 damage is about 570, far more than a 100-health target. **Alternative reading (2026-11-23):** if the stat-100 build sits at the 0.99 cap and the target has about 570 HP, the plain sword's coefficient was about 0.79 (effective DR about 9, not 40), so full penetration could gain at most 0.99/0.79 = 1.25x, and 22.5/1.25 = 18, matching the result. The penetration may already be working on a soft target. HP is inferred, not measured, so this is not proof. Decisive test: a heavily armored target (Mirelurk Hunter `00064C5E`, DR 85, about 2.8x at the cap).
 - **Record stats did not predict the spawned actor.** The three Protectron records (`00106B07` LvlProtectron, `00106B09` EncProtectron01Template, `00186E01` LvlProtectron_Hostile) all read health 100, DR 40, level 5, yet the spawned one took about 22 swings (about 7 expected). Templates and level scaling are involved. `00106B09` was suggested as a fixed-stat spawn; not yet tried.
 - Reading `getav health` in the console was unreliable on the Deck; screenshots attached to chat are readable. Counting hits to kill is the practical measure.
 
