@@ -42,6 +42,10 @@ Note `Target` is `1`, not `2`. Using `2` selects *Reference*.
 - `MOD2` is the **Male** biped model and `MOD3` is the **Female** one (first person: `MOD4` male, `MOD5` female). The Gemini brainstorm and its script have these swapped.
 - Either model may be left out in the record definition; what a character of the other gender sees in that case is untested here.
 
+## Biped slots (first-person flags)
+
+`46` Headband, `47` Eyes, `48` Beard, `49` Mouth, `50` **Neck** (`0x00100000`), `51` **Ring** (`0x00200000`), `52` Scalp, `54` Unnamed. The Gemini brainstorm calls 52 the Ring slot; it is Scalp.
+
 ## Known unknowns
 
 - FormIDs for vanilla records (e.g. components, templates) are not verified here; look them up in FO4Edit on a real load order.
