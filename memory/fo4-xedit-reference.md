@@ -30,8 +30,10 @@ Note `Target` is `1`, not `2`. Using `2` selects *Reference*.
 
 ## xEdit Pascal script host
 
-- `AddNewFile` exists; `CreateNewFile` does not.
-- `AddMasterIfMissing(file, masterName)` is built in. Redefining it in a script as a wrapper that calls itself recurses forever.
+- `AddNewFile` exists and, in the 4.1.5f release binary, takes **no arguments** (it shows a "Filename without extension" box and creates a `.esp`). `AddNewFileName(name, isLight, isMedium)` and the light-flag arguments exist only in the newer `dev-4.1.6` source, not in 4.1.5f (`Undeclared Identifier` / `Type mismatch`, verified 2026-11-23). `CreateNewFile` does not exist.
+- **The source clone is newer than the release binary.** Anything read from `~/Repos/upstream/TES5Edit` may be missing from FO4Edit 4.1.5f; the script error text is authoritative.
+- `AddMasterIfMissing(file, masterName)` is built in. Redefining it in a script as a wrapper that calls itself recurses forever. A copy made with `wbCopyElementToFile(..., True, True)` does **not** add masters: without it the saved plugin had no `MAST` and vanilla references came out as `<Error: Could not be resolved>` with an extra `01` in the FormID (observed 2026-11-23; calling `AddMasterIfMissing(file, 'Fallout4.esm')` right after `AddNewFile` fixed it, confirmed the same day by the saved header and zero unresolved references).
+- A plugin created from a script is saved into the game's real `Data` folder (the `S:` path), not into MO2's `overwrite`.
 - `wbCopyElementToFile(element, file, asNew, asDeepCopy)` exists.
 - `AddNewRecord` was not found in the script adapters; add records with `Add(file, 'SIG', True)` (container `Add`).
 - `ElementAssign(container, HighInteger, nil, False)` is the append pattern; `HighInteger` is a defined constant.
