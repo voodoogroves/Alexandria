@@ -61,6 +61,14 @@ Note `Target` is `1`, not `2`. Using `2` selects *Reference*.
 - Other armor-ignoring records exist for armor linings (`mod_armor_*_IgnoreArmor`, `Mod_IgnoreArmor_AV` `00245BA4`).
 - A weapon's own enchantment is its base `EITM`, separate from the legendary OMOD slot (`ap_Legendary`).
 
+## Vanilla armor penetration (from the game's own strings and records)
+
+- Actor value `ArmorPenetration` (AVIF `00097341`); its description reads "For weapons with Armor Penetration. 0-100 (treat as % armor ignored)". It is a weapon stat, a percentage of the target's armor that is ignored.
+- Legendary "Penetrating" (OMOD `001F4426`) sets that weapon property to `30.0`, i.e. ignores 30% of the target's armor.
+- Rifleman perk text: ranks ignore 15%, 20%, 25% and 30% of a target's armor (non-automatic rifles).
+- Armor-lining mods for melee/unarmed: "Unarmed and Melee attacks ignore some of target's armor" (`Mod_IgnoreArmor_AV`, `00245BA4`).
+- Anchors for tuning: 15% (Rifleman rank 1) and 30% (legendary Penetrating).
+
 ## Known unknowns
 
 - FormIDs for vanilla records (e.g. components, templates) are not verified here; look them up in FO4Edit on a real load order.
