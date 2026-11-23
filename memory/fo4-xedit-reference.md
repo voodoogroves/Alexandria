@@ -99,6 +99,28 @@ Read from each record's `PRPS` properties. "Armor" is the `DamageResist` actor v
 - Method for measuring damage without a mod: select the target by clicking it with the console open, `getav health`, land one hit, `getav health` again; the difference is the damage.
 - The `Lvl...` NPC records (about 3,000 `NPC_` records in total) are leveled templates; the named `Enc...` and `DN...` records are the concrete ones. Full list: ask `Lookup.pas` for `list NPC_`.
 
+## Fallout 4 damage resistance (fallout.wiki, read through a summarising fetch: UNVERIFIED)
+
+- **Formula as reported:** `DamageCoeff = min(0.99, (Damage x 0.15 / DamageResist)^0.365)`, damage taken = damage x DamageCoeff. The page's equation did not render in the fetch, so confirm it on the live page ("Damage Resistance (Fallout 4)" on `fallout.wiki`; the Fandom copy blocks automated reads with HTTP 402).
+- Reported examples: damage equal to DR gives about a 50% reduction (10/10, 50/50, 100/100 all about 5/25/50).
+- Armor penetration is reported as a multiplier on the target's DR (e.g. Rifleman rank 5 x 0.7), which matches the perk entry we decoded (`Multiply 1 + Actor Value Mult`). Critical hits ignore armor (the one line read verbatim). Energy resistance is reported as bugged / not reduced in Fallout 4.
+- **Predictions at 32 damage vs DR 40** (from the reported formula): plain about 14.7 per hit; DR x0.7 (stat 30) about 16.8 (+14%); DR 0 (stat 100) about 31.7 (x2.15). For DR 85 the full-penetration ratio is about x2.8.
+
+## Blade of Bastet armor-penetration test results (Chris, Test profile, 2026-11-23)
+
+Spawned `player.placeatme 00106B07` (a Protectron), Strength 10 so both swords show 32 damage, hits to kill, plain swings, single runs:
+
+| Weapon | `ArmorPenetration` stat | Hits to kill |
+|---|---|---|
+| Plain Chinese Officer Sword | 0 | 22 to 23 |
+| Blade of Bastet (spec build) | 30 | 22 |
+| Blade of Bastet TEST100 | 100 | 18 |
+
+- Expected ratios if the chain applied fully: about 1.14 (stat 30) and about 2.15 (stat 100). Observed about 1.0 and 1.2: **an effect smaller than predicted, or noise.** Early impression was a faster-draining health bar. Single runs and random criticals (which ignore armor) make this inconclusive; repeated counts (3 each) and a more heavily armored target are the next steps.
+- Chris's check: 18 swings x 32 damage is about 570, far more than a 100-health target, so the stat-100 build is not zeroing the target's armor (if its health is near 100).
+- **Record stats did not predict the spawned actor.** The three Protectron records (`00106B07` LvlProtectron, `00106B09` EncProtectron01Template, `00186E01` LvlProtectron_Hostile) all read health 100, DR 40, level 5, yet the spawned one took about 22 swings (about 7 expected). Templates and level scaling are involved. `00106B09` was suggested as a fixed-stat spawn; not yet tried.
+- Reading `getav health` in the console was unreliable on the Deck; screenshots attached to chat are readable. Counting hits to kill is the practical measure.
+
 ## Running xEdit scripts without clicking (verified 2026-11-23, Proton 11.0, xEdit 4.1.5f)
 
 - Flags (read from `xEdit/xeInit.pas`): `-script:"file.pas"` (game from the exe name or a `-FO4` switch), `-autoload`, `-autoexit`, `-R:"log"`. Run via MO2's executable Arguments. `-autoload` did not skip the module-selection dialog here (the dialog still needs one OK click); the script still ran after loading. Script work was under a second.
