@@ -79,6 +79,26 @@ Note `Target` is `1`, not `2`. Using `2` selects *Reference*.
 - **Keywords:** `WorkbenchChemlab` `KYWD 00102158`; `RecipeUtility` `KYWD 0006980C` (display name "UTILITY", type Recipe Filter).
 - **Enchantment `ENCH 001F4425` `enchModArmorPenetration`:** Constant Effect, target Self, effect `MGEF 001F4423`. That MGEF is constant, self, hidden in the UI, archetype shown as "Unknown 36" (the Add Perk archetype in the definitions).
 
+## Test enemies: armor and health (`Fallout4.esm` `NPC_` records, FO4Edit 4.1.5f, 2026-11-23)
+
+Read from each record's `PRPS` properties. "Armor" is the `DamageResist` actor value. These are the record's base values, **not checked in game**: many NPCs inherit stats from a template (`Use Template Actors` -> Stats) and leveled actors can scale, so confirm in the console on a selected target (`getav damageresist`, `getav health`; general knowledge, not run on this setup).
+
+| Enemy | FormID | Level | Health | Armor (`DamageResist`) | `EnergyResist` |
+|---|---|---|---|---|---|
+| Assaultron Invader (`EncAssaultron02`) | `000D8418` | 36 | 400 | 105 | 60 |
+| Deathclaw (`DN092AmbushDeathclaw`) | `0002C969` | 22 | from template `LvlDeathclaw` `00075338` | 100 | 150 |
+| Mirelurk King (`EncMirelurkKing01`) | `000B7F95` | 30 | 350 | 95 | 150 |
+| Mirelurk Hunter (`EncMirelurkHunter01`) | `00064C5E` | 24 | 400 | 85 | 85 |
+| Mirelurk Crab (`LvlMirelurkCrab`) | `0005A9C1` | 5 | 120 | 45 | 30 |
+| Protectron (`BoS302LvlProtectron`) | `0003A5E5` | 5 | 100 | 40 | 25 |
+| Mr. Handy (`REAssaultSC06_MrHandy`) | `0003D62F` | 7 | 100 | 30 | 25 |
+| Super Mutant melee (`LvlSupermutantMelee`) | `00088F14` | 10 | 120 | 10 | 5 |
+
+- **Armored target plus control for damage tests:** Mirelurk Hunter (armor 85, health 400, enough to survive several hits) against the melee Super Mutant (armor 10). The Assaultron and Deathclaw have the most armor but are dangerous, the Deathclaw's health is not on its own record, and the Mirelurk Crab (health 120) dies too fast to measure.
+- Spawn by console: `player.placeatme <FormID>` (general knowledge, not run here). `tai` freezes an actor and `tgm` is god mode for the player.
+- Method for measuring damage without a mod: select the target by clicking it with the console open, `getav health`, land one hit, `getav health` again; the difference is the damage.
+- The `Lvl...` NPC records (about 3,000 `NPC_` records in total) are leveled templates; the named `Enc...` and `DN...` records are the concrete ones. Full list: ask `Lookup.pas` for `list NPC_`.
+
 ## Running xEdit scripts without clicking (verified 2026-11-23, Proton 11.0, xEdit 4.1.5f)
 
 - Flags (read from `xEdit/xeInit.pas`): `-script:"file.pas"` (game from the exe name or a `-FO4` switch), `-autoload`, `-autoexit`, `-R:"log"`. Run via MO2's executable Arguments. `-autoload` did not skip the module-selection dialog here (the dialog still needs one OK click); the script still ran after loading. Script work was under a second.
