@@ -121,6 +121,16 @@ Spawned `player.placeatme 00106B07` (a Protectron), Strength 10 so both swords s
 - **Record stats did not predict the spawned actor.** The three Protectron records (`00106B07` LvlProtectron, `00106B09` EncProtectron01Template, `00186E01` LvlProtectron_Hostile) all read health 100, DR 40, level 5, yet the spawned one took about 22 swings (about 7 expected). Templates and level scaling are involved. `00106B09` was suggested as a fixed-stat spawn; not yet tried.
 - Reading `getav health` in the console was unreliable on the Deck; screenshots attached to chat are readable. Counting hits to kill is the practical measure.
 
+## Armor penetration in vanilla: how it is attached, and what failed (2026-11-23)
+
+- **Console checks that work:** `player.getav ArmorPenetration` and `player.hasperk 001F4166` on an equipped weapon. The Sword of Wonders (vanilla legendary Penetrating) reads 30.00 and Rank 1. A weapon built by our scripts read 0 and none, three times.
+- **Three vanilla patterns (all read from the records):** mundane melee mods add keyword `ap_melee_ArmorPenetrate` (`00097342`), which an entry in the base `PlayerPerk` (`00056DD7`, Mod Target Damage Resistance, Multiply Value 0.85, weapon-tab `HasKeyword`) turns into a flat 15%; mundane gun Armor Piercing receivers carry the trio keyword + `enchModArmorPenetration` + `ActorValues ArmorPenetration` 40; the legendary Penetrating mod (`001F4426`, `ap_Legendary`) carries the trio at 30. Perk entry condition tabs: 0 attacker, 1 weapon, 2 target.
+- **Only four vanilla weapons ship with a legendary mod in their template** (all `DLCRobot.esm`: Tesla Rifle, two Sentry Bot miniguns, Salvaged Assaultron Head), as a Default-combination include with `Attach Point Index` 0. Copying that onto a crafted sword did not make it legendary.
+- **The cheat terminal's legendary menu** calls `AttachMod` on the grabbed object (`Game.GetPlayerGrabbedRef`): a runtime attach to an item instance. The `.pex` scripts are in `cheatterminal - main.ba2` (a plain archive; a short Python reader lists and extracts the files).
+- **xEdit script gotcha (cost us several tests):** an OMOD's data block is `ElementBySignature(o, 'DATA')`. `ElementByName(o, 'Data')` returns nothing, so property edits silently do nothing and counts read 0. Always log counts and fail on a missing element.
+- **Gemini's record names** for these (`mod_Legendary_Weapon_IgnoreArmor`, `Perk_Legendary_Weapon_IgnoreArmor`, `dn_HasMeleeMod_ArmorPenetration`) do not exist in the game data; its `ArmorPenetration` stat description ("0-100, % armor ignored") was right. Treat its structure as a lead and its identifiers as unverified.
+- **Console `help` syntax that works:** `help "word" 4 WEAP`; the wiki "Form ID" of a unique can be a placed reference, not the item.
+
 ## Running xEdit scripts without clicking (verified 2026-11-23, Proton 11.0, xEdit 4.1.5f)
 
 - Flags (read from `xEdit/xeInit.pas`): `-script:"file.pas"` (game from the exe name or a `-FO4` switch), `-autoload`, `-autoexit`, `-R:"log"`. Run via MO2's executable Arguments. `-autoload` did not skip the module-selection dialog here (the dialog still needs one OK click); the script still ran after loading. Script work was under a second.
