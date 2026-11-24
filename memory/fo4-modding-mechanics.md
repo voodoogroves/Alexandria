@@ -1,0 +1,49 @@
+# Fallout 4 modding mechanics (project independent)
+
+How things work in the game data, as verified on the Steam Deck (Proton 11.0, FO4Edit 4.1.5f, game 1.11.240). Facts marked *(in game)* were tested by playing; *(xEdit)* were read from the vanilla records; *(inferred)* are conclusions not yet tested. Project-specific results (the Blade of Bastet) are in `fo4-regalia-of-mystery/spec/`; xEdit scripting facts are in `fo4-xedit-reference.md`. Dated 2026-11-24.
+
+## Giving the player a perk from an equipped item, with no script
+
+- Chain: `ENCH` (Constant Effect, target Self) -> `MGEF` (archetype "Add Perk" shown as *Unknown 36*, constant, self, hidden; the perk is in `Magic Effect Data / DATA - Data / Perk to Apply`) -> `PERK`. Vanilla's penetration chain is `001F4425 -> 001F4423 -> 001F4166`. Copy and re-point: the ENCH's effect is `Effects / Effect / EFID - Base Effect`. *(xEdit; copies verified in game: `hasperk` is 1 equipped, 0 unequipped)*
+- It attaches through an **OMOD** property `Enchantments ADD <ENCH>`, on a mod in an Upgrade slot (`ap_melee_MeleeMod`). A weapon record's own `EITM`, and weapon-level `ActorValues` stats in the object template, did **not** apply anything. *(in game)*
+- Console check: `player.hasperk <ID>`. Note a perk added by the console (`player.addperk <ID>`) stays; the chain adds and removes it with the item.
+
+## Perk entries that change damage
+
+- Entry point **Mod Target Damage Resistance**, function **Multiply Value** (or "Multiply 1 + Actor Value Mult" with an actor value): the target's resistance is multiplied. 0.70 ignores 30%, 0.0 ignores all. *(in game)*
+- A perk entry has condition **tabs**: 0 = attacker (the player), 1 = weapon, 2 = target. `HasKeyword` on the weapon tab matches a keyword on the equipped weapon (including keywords an OMOD added). `WornHasKeyword` on the attacker tab matches any worn item with the keyword. Both verified. *(in game)*
+- **Several entries multiply.** A second entry with multiplier 0.0 and an extra condition zeroes the product, so a "bonus" item can be a bare keyword on a worn item; no script and no per-item perk. *(in game)*
+- Vanilla non-legendary melee penetration is one entry in the base `PlayerPerk` (`00056DD7`): 0.85 when the weapon has `ap_melee_ArmorPenetrate`. Copying `PlayerPerk` and keeping one effect makes a clean starting point. *(xEdit)*
+
+## Weapon mod (OMOD) properties
+
+Entries under `DATA / Properties`: `Property`, `Value Type`, `Function Type`, `Value 1`, `Value 2`. Forms that work:
+- Numbers: `Float`, `MUL+ADD`, `Value 1` = the amount. **They add together into one multiplier**: the mod's `AttackDamage` of 0.75 is x1.75; bumping it by 0.45 gives 1.2 (x2.2). *(in game: 32 -> 70)* Edit the existing entry in place instead of adding a second one.
+- References (keywords, enchantments): `FormID,Int`, `ADD`, `Value 1` = the FormID, `Value 2` = 440.
+- Verified in game on a sword: `AttackDamage`, `Weight` (-0.33 took 3 to 2), `AttackActionPointCost` (-0.43; VATS swings 2 -> 5 on the same AP).
+- **`Speed` does nothing visible on a melee weapon** (+0.45 felt identical). The vanilla examples are guns (the Rapid legendary). *(in game)*
+- **Swing speed** is on the weapon record: `MASE - Melee Speed` (Fast / medium / ...), `Animation Attack Seconds` (0.77 fast, 1.12 sword), the keyword `Anims1hmShortWeapon` (short-blade animations), AP cost and stagger. Disciples Blade is fast through these; its `Speed` field is 1.0 like every other melee weapon. An OMOD cannot set them as far as we found. *(xEdit)*
+- Mods can **add or remove keywords** but removing a keyword needs deleting its property entry from the copy; do it by matching `Value 1` to the FormID.
+
+## Item names (naming rules)
+
+- A weapon points at a naming record with `INRD` (the melee ones use `dn_CommonMelee`, `INNR 000B9738`). The record holds rulesets of rules: `WNAM` text, optional `KWDA` keywords, `YNAM` index. The shown name is built from the matching rules, and the last rule `*` (index 10000) is the item's own name. *(xEdit)*
+- Name words come from **keywords on the weapon or its mods**, not from the OMOD's own `FULL` (that is only the name in the mod list and workbench menu). A copy of Electrified Serrated kept `dn_HasMeleeMod_Serrated` and `dn_HasMeleeMod_Shock`, so the item still said "Electrified Serrated". *(in game)*
+- A rule can only add words around the base name. A full custom name needs a weapon record of its own, or accepting the base name with a prefix or suffix. Overriding the shared naming record is a mod-compatibility cost. *(inferred from the data; the suffix test is the next in-game check)*
+- Vanilla melee name words include Serrated, Electrified, Sharp, Bladed, Heavy, Weighted, Spiked, Heated, and colours (Black, Red, Oak, Mahogany, Grey, Blue, Aluminum, Cedar). There is no gold word. *(xEdit)*
+
+## Vanilla melee numbers worth knowing *(xEdit)*
+
+| Weapon | Damage | Weight | AP | Swing | Notes |
+|---|---|---|---|---|---|
+| Chinese Officer Sword | 16 | 3.0 | 35 | 1.12s | stagger small; Serrated mod +75% and bleed |
+| Machete | 14 | 2.0 | 30 | 1.12s | |
+| Combat Knife / Switchblade | 9 / 8 | 1.0 | 20 | 0.77s | Fast, short-blade keyword |
+| Disciples Blade (Nuka-World) | 20 | 1.5 | 20 | 0.77s | Fast; Cutlass mod +75% and bleed (weight x2), Knife +25%, Hatchet +25%, Serrated Hatchet +75% |
+
+At Strength 10 the displayed damage is double the record's base (16 shows 32).
+
+## Testing
+
+- The SKK workshop target dummy shows damage numbers, never goes hostile, and takes any armor pieces: damage unarmored vs in the heavy combat chest shows the armor effect directly.
+- Difficulty to Normal and fixed; the in-game console accepts a paste.
