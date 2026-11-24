@@ -32,6 +32,10 @@ Entries under `DATA / Properties`: `Property`, `Value Type`, `Function Type`, `V
 - A rule can only add words around the base name. A full custom name needs a weapon record of its own, or accepting the base name with a prefix or suffix. Overriding the shared naming record is a mod-compatibility cost. *(inferred from the data; the suffix test is the next in-game check)*
 - Vanilla melee name words include Serrated, Electrified, Sharp, Bladed, Heavy, Weighted, Spiked, Heated, and colours (Black, Red, Oak, Mahogany, Grey, Blue, Aluminum, Cedar). There is no gold word. *(xEdit)*
 
+- **Verified 2026-11-24:** a naming rule's text lands **in front** of the base name even at index 10001 (the base `*` is 10000). So rules cannot add a suffix, and ordering is not by index alone. **The way to a custom full name is a weapon record of its own**: copy the base weapon, give it its own `FULL`, and keep name keywords off its mods (no Serrated), so no rule adds words. *(in game)*
+- **A custom weapon can carry its mod through its template**: replace the `Mod` of every template include (`Object Template / Combinations / <combination> / OBTS / Includes / Include / Mod`) that was the base's "No Upgrade" with your own Upgrade-slot mod. It attached on a crafted item (damage, weight, VATS, perk all applied). A *legendary* mod in a template include did not. *(in game)*
+- **Open question (inferred):** weapon-workbench mods are offered by keyword. A copy of a weapon keeps `ma_<Weapon>` (e.g. `ma_ChineseOfficerSword`), so the vanilla mods for that weapon are still offered, in the same slot as yours. A new `ma_` keyword on the copy, and as the target keyword of your own mod, should restrict it.
+
 ## Vanilla melee numbers worth knowing *(xEdit)*
 
 | Weapon | Damage | Weight | AP | Swing | Notes |
