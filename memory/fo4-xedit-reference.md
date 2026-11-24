@@ -139,6 +139,9 @@ Spawned `player.placeatme 00106B07` (a Protectron), Strength 10 so both swords s
 - The tool lives in Rhodes: `scripts/xedit/Lookup.pas`, driven by a plain-text request file.
 - Script API facts used: `FileByIndex`, `GroupBySignature`, `MainRecordByEditorID(group, edid)`, `RecordByFormID(file, id, True)`, `ElementCount`/`ElementByIndex` (groups too), `Name`, `GetEditValue`, `EditorID`, `FormID`, `IntToHex`. There is no `HexFormID`.
 
+- **Lookup tool gotchas (2026-11-24):** `file <n>` indexes xEdit's own list, which has one more file than the usual load order before the DLCs (`DLCUltraHighResolution`): with the base game and six DLC ticked Nuka-World is **7** (index 6 was `DLCworkshop03`). `id` resolves a FormID **inside the current file**, so a Nuka-World record (`06xxxxxx`) needs `file 7` first; under another file it returns NOT FOUND, quietly. The script prints the file name it switched to: check it. `grepall` needs the relevant DLC and `cc*.esl` ticked in the module list, and matches text anywhere in a record's dump (so "Disciples" also matches guns). Light (`.esl`) plugins load fine. A weapon sold only in a Creation Club pack that is not installed cannot be read at all.
+- **Plugin script gotchas (2026-11-24):** `wbCopyElementToFile(src, file, True, True)` makes a new record; with `False` as the third argument it makes an **override** of the same FormID (used to extend a vanilla naming record). `ElementAssign(container, HighInteger, srcElement, False)` copies an existing element into a list (used to duplicate a perk entry and a naming rule). `ElementByPath(rec, 'A\B')` works. After adding a rule to an array, set the array's count field (`VNAM - Count`) yourself. Removing a property entry: `Remove(p)`, then set `Property Count`.
+
 ## Known unknowns
 
 - FormIDs for other vanilla records (templates and so on) are not verified here; add them to a request file and run `Lookup.pas`.
