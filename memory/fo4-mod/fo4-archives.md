@@ -23,7 +23,7 @@ baunpack "$D/Fallout4 - Meshes.ba2" -- chineseofficersword/           # extract 
 ## Reading records (ESM/ESP) without xEdit's GUI
 
 - **`esmdump`** (also fo76utils): build with `~/Repos/Rhodes/scripts/fo76utils/build-esmdump.sh` (about 12 seconds). Lists records as text, e.g. `esmdump "$D/Fallout4.esm" "$D/Fallout4 - Interface.ba2" -i BOOK -edid -n -o book.txt` (`-i TYPE` filters, `-edid` resolves form IDs to names, `-n` drops the stats; the `.ba2` argument supplies localized strings). **It prints only the fields it knows**: BOOK's `DATA`/`DNAM` and `MODS` are missing, for example. Use `-v` for a few more.
-- **`esmrec.py`** (ours, `scripts/fo76utils/esmrec.py`, standard-library Python): prints *every* raw subrecord of chosen records by form ID or EditorID, e.g. `python3 -I esmrec.py "$D/Fallout4.esm" BOOK 8E74A` or `... STAT HighPoly_Grognak10`. Walks all of `Fallout4.esm` in about 1.6 seconds. Fields come out as hex, so layouts must be decoded by hand (compare against `Rhodes/scratch/fo4-magazines.md` for an example). Localized `FULL`/`DESC` show as 4-byte string IDs.
+- **`esmrec.py`** (ours, `scripts/fo76utils/esmrec.py`, standard-library Python): prints *every* raw subrecord of chosen records by form ID or EditorID, e.g. `python3 -I esmrec.py "$D/Fallout4.esm" BOOK 8E74A` or `... STAT HighPoly_Grognak10`. Walks all of `Fallout4.esm` in about 1.6 seconds. Fields come out as hex, so layouts must be decoded by hand (see `fo4-books-and-magazines` for a decoded example). Localized `FULL`/`DESC` show as 4-byte string IDs.
 - Resolving a form ID to a name: dump the type with `esmdump -i TYPE -edid` and grep the ID.
 - Both read only; they never write the plugin.
 

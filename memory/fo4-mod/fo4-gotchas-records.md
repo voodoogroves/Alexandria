@@ -8,7 +8,7 @@ verified: 2026-11-25
 
 # Record gotchas
 
-Detail: `fo4-perks-and-damage`, `fo4-weapon-mods-and-names`, `fo4-guns-sound-and-impact`, `fo4-materials-and-models`.
+Detail: `fo4-perks-and-damage`, `fo4-weapon-mods-and-names`, `fo4-guns-sound-and-impact`, `fo4-materials-and-models`, `fo4-armor-and-clothing`.
 
 - Perk without script: constant `ENCH` -> Add Perk `MGEF` -> `PERK`, attached by an OMOD `Enchantments ADD` (or armor `EITM`).
 - A weapon record's own `EITM` and template `ActorValues` did not apply. *(in game)*
@@ -19,4 +19,6 @@ Detail: `fo4-perks-and-damage`, `fo4-weapon-mods-and-names`, `fo4-guns-sound-and
 - A recolour is a `MSWP` applied with `MaterialSwaps` **ADD**. It covers only the model that mod supplies, and only materials the mesh references.
 - An explosion fires only from a projectile with the `Explosion` flag; ordinary bullets lack it.
 - Fields under `FNAM` (e.g. `Override Projectile`) are not under `DNAM`.
+- The craft screen shows only **two** perk prerequisites; use at most two per recipe. `HasPerk` greys a recipe, it does not hide it. See `fo4-recipes-and-gates`.
+- A condition list cannot be added to a spell effect with `Add`; put the condition on the perk entry.
 - Treat record names from generated or brainstormed text as unverified until read in xEdit.
