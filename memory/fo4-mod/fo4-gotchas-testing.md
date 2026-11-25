@@ -19,4 +19,6 @@ Detail: `fo4-testing`, `fo4-deck-workflow`, `fo4-materials-and-models`.
 - Console commands and paths go in fenced code blocks, one per paste target.
 - Keep difficulty on Normal when measuring damage.
 - Record stats do not always match spawned actors; check in game.
+- Hits to kill is too noisy to judge a damage effect: compare per-hit numbers on the SKK dummy. The dummy cannot show a stagger; use a live enemy.
+- Fandom and Nexus have refused automated reads: do not route around it; ask for pasted text. Treat AI-generated record details as leads until read.
 - Say what is verified in game and what is only built or read.

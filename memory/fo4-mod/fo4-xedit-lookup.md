@@ -29,6 +29,6 @@ Run it from MO2, click OK on the module list (it still appears) and the "Not imp
 
 - **Use home paths (`Z:\home\deck\...`) for everything.** xEdit runs inside Proton and cannot see `/tmp`; it will say "Could not open script" for a `/tmp` path. An assistant's shell in the VS Code Flatpak has a private `/tmp` too.
 - After editing Arguments, re-open the gear to confirm it saved; a stale old line cost a retry.
-- **Keep two executable entries:** `FO4EDIT` with empty Arguments for normal GUI use, and a second one (e.g. `FO4EDIT lookup`) with the script Arguments. If the script Arguments are left on the normal entry, opening FO4Edit runs the script and exits. (As of 2026-11-23 the single entry still has the script Arguments.)
+- **Keep two executable entries:** `FO4EDIT` with empty Arguments for normal GUI use, and a second one (e.g. `FO4EDIT lookup`) with the script Arguments. If the script Arguments are left on the normal entry, opening FO4Edit runs the script and exits.
 - **Do not launch xEdit by running `proton run` from a shell.** It fails (no display authorisation) and rewrites Proton runtime files in the game's prefix.
 - Reference ids are in Alexandria `memory/fo4-mod/fo4-vanilla-records.md`.

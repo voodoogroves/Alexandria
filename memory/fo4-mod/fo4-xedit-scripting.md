@@ -50,6 +50,11 @@ Note `Target` is `1`, not `2`. Using `2` selects *Reference*.
 - **Cross-plugin references in a new file (verified 2026-11-24, xEdit 4.1.5f):** `FormID(e)` returns the ID in the numbering of the file the record **lives in**, not its load-order ID. For a record of the file you are building that is exactly right (write it as is). For a record of **another plugin** it is wrong: writing it into your new file makes it read as one of *your* records (an Eye keyword became the file's own magic effect, silently). Convert instead: `raw := LoadOrderFormIDtoFileFormID(f, GetLoadOrderFormID(rec))`, after `AddMasterIfMissing(f, 'OtherPlugin.esp')`, and decide by `GetFileName(GetFile(rec)) = GetFileName(f)`. Passing `FormID(rec)` into `LoadOrderFormIDtoFileFormID` raises "Load order FileID [nn] can not be mapped". For records from `Fallout4.esm` (file index 0) both give the same number, which is why vanilla references always worked. **Always log the parameter you wrote** (`GetElementEditValues(ctda, 'Parameter #1')`): the wrong record shows up by name.
 - **A failed script run can still leave a partial plugin:** if you accept the save prompt after an abort, a few hundred bytes of an empty plugin land in `Data`; answer No, or delete it before rerunning (the filename box refuses an existing name).
 
+## More script facts
+- A condition list cannot be created on a spell effect with `Add`; put the condition on the perk entry. *(2026-11-25)*
+- A helper that converts another plugin's FormIDs: `Ref` in `fo4-regalia-of-mystery/build/xedit/BuildVoice3.pas`.
+- `scripts/esp/esp.py` in Rhodes reads any plugin directly, including ones xEdit did not load.
+
 ## Known unknowns
 
 - FormIDs for other vanilla records (templates and so on) are not verified here; add them to a request file and run `Lookup.pas`.

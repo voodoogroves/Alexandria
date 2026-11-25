@@ -88,5 +88,4 @@ It removes the redirector, the Steam wrapper, the launch option, and every track
 
 ## Open
 
-- Split the FO4Edit entry in two (normal and lookup); see `fo4-xedit-lookup`.
 - Test a Nexus "Mod Manager Download" and confirm it lands in this instance.
