@@ -39,3 +39,6 @@ out*.txt
 build.log
 xe.log
 *.bak*
+
+# third-party offline references (not ours to publish)
+/reference/

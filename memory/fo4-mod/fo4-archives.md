@@ -1,9 +1,9 @@
 ---
 name: fo4-archives
-description: Reading vanilla BA2 archives and plugin records on the Deck without xEdit - baunpack, esmdump, esmrec.py, esp.py.
+description: Offline Creation Kit wiki (check first for Papyrus and record questions); reading vanilla BA2 archives and plugin records on the Deck without xEdit - baunpack, esmdump, esmrec.py, esp.py.
 applies-to: [fo4-mod]
 kind: lookup
-verified: 2026-11-24
+verified: 2026-11-25
 ---
 **Tool: `baunpack` from [fo76utils](https://github.com/fo76utils/fo76utils)** (MIT, C++, native Linux). Verified 2026-11-24: lists and extracts from `Fallout4 - Materials.ba2` and `Fallout4 - Meshes.ba2`; lists `Fallout4 - Textures*.ba2` (texture extraction not tried).
 
@@ -26,6 +26,12 @@ baunpack "$D/Fallout4 - Meshes.ba2" -- chineseofficersword/           # extract 
 - **`esmrec.py`** (ours, `scripts/fo76utils/esmrec.py`, standard-library Python): prints *every* raw subrecord of chosen records by form ID or EditorID, e.g. `python3 -I esmrec.py "$D/Fallout4.esm" BOOK 8E74A` or `... STAT HighPoly_Grognak10`. Walks all of `Fallout4.esm` in about 1.6 seconds. Fields come out as hex, so layouts must be decoded by hand (see `fo4-books-and-magazines` for a decoded example). Localized `FULL`/`DESC` show as 4-byte string IDs.
 - Resolving a form ID to a name: dump the type with `esmdump -i TYPE -edid` and grep the ID.
 - Both read only; they never write the plugin.
+- Script behaviour: `baunpack "$D/DLCRobot - Main.ba2" -- <script name>` extracts `.pex` files; `strings` shows property and function names, not the logic.
+- Localized names: extract `fallout4_en.strings` from `Fallout4 - Interface.ba2`. Layout: u32 count, u32 data size, (id, offset) pairs, then NUL-terminated text at those offsets. `esmdump` left `OMOD` names as IDs (2026-11-25).
+
+## Offline Creation Kit wiki
+Check it before searching the web for Papyrus functions, record fields or perk entry points: the live wiki refused automated reads (2026-11-25).
+`reference/fo4-ck-wiki/FO4CKWiki_210520/fallout4/*.html` in Alexandria (gitignored, local to this Deck; the source `.7z` sits in `reference/`). Pages are named like `AddPerkPoints_-_Game.html`; search with `grep`. A 2021 snapshot: later game and F4SE changes are missing.
 
 ## Other tools
 
