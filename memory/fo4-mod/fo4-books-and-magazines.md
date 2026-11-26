@@ -3,7 +3,7 @@ name: fo4-books-and-magazines
 description: How vanilla magazines and notes are built (meshes, cover swaps, inventory art, perk link) and what a new one needs.
 applies-to: [fo4-mod]
 kind: lookup
-verified: 2026-11-24
+verified: 2026-11-26
 ---
 Tags: **Verified** = read from the records or files; **decoded** = a reading of a binary layout; **unverified** = not checked. Tools: `fo4-archives`. Granting a perk on read was later verified in game: `fo4-recipes-and-gates`.
 
@@ -35,6 +35,12 @@ Tags: **Verified** = read from the records or files; **decoded** = a reading of 
 
 ## Writing the materials
 Both `.bgsm` files can be written by script (`fo4-materials-and-models`). Use our own paths and a swap; never overwrite vanilla paths.
+
+## Readable books and notes *(in game, 2026-11-25/26)*
+- A book shows its text on the page of its **preview model** (`INAM`). The small photo model showed no text, the large photo page (`Interface\Newspaper\Photo01_SilverShroud.nif`) cut it off, and the torn note showed half a page.
+- The standard full note page is `STAT` `001B5EF1` (`Interface\Newspaper\Note.nif`). To print a picture on it, copy the STAT and swap `Interface\Note\Note.BGSM` in a material swap. Final text fit and the picture on that page were not yet reported.
+- Taking a book from a container or body does not open it for reading. Place it loose in the world if it should open on pickup.
+- A book that teaches a perk: `fo4-recipes-and-gates`.
 
 ## Not checked
 

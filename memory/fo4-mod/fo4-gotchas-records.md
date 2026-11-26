@@ -3,7 +3,7 @@ name: fo4-gotchas-records
 description: Engine behaviour that looks like it should work and does not. Read before designing records.
 applies-to: [fo4-mod]
 kind: gotcha
-verified: 2026-11-25
+verified: 2026-11-26
 ---
 
 # Record gotchas
@@ -21,4 +21,7 @@ Detail: `fo4-perks-and-damage`, `fo4-weapon-mods-and-names`, `fo4-guns-sound-and
 - Fields under `FNAM` (e.g. `Override Projectile`) are not under `DNAM`.
 - The craft screen shows only **two** perk prerequisites; use at most two per recipe. `HasPerk` greys a recipe, it does not hide it. See `fo4-recipes-and-gates`.
 - A condition list cannot be added to a spell effect with `Add`; put the condition on the perk entry.
+- A recipe ingredient should be a plain item: crafting from a wearable one crashed once (cause unproven) and crafting from a worn one left its look on the player.
+- An explosion's own `Stagger` at 0 damage did not affect bystanders; give it a conditional enchantment. See `fo4-guns-sound-and-impact`.
+- A crafted weapon with a legendary mod: remove the mod copy's `FeaturedItem` keyword, or its pop-up over the craft menu can crash the game.
 - Treat record names from generated or brainstormed text as unverified until read in xEdit.

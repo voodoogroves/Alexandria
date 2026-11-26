@@ -3,7 +3,7 @@ name: fo4-recipes-and-gates
 description: Crafting recipes and gating - station and category, HasPerk locks, vanilla gate conditions, Automatron robot unlock globals, two visible prerequisites, a book that grants a perk, unique and broken items.
 applies-to: [fo4-mod]
 kind: lookup
-verified: 2026-11-25
+verified: 2026-11-26
 ---
 Tags: *(in game)* tested by playing; *(xEdit)* read from the records. Source: the Regalia Eye spec and build spec.
 
@@ -33,5 +33,7 @@ Recipes using each, in `Fallout4.esm` / `DLCRobot` / `DLCCoast` / `DLCNukaWorld`
 - `UnscrappableObject` `001CC46A` keeps an item off the scrap list. *(in game)* Remove scrap components too.
 - A `MISC` base that worked: the Silver Locket `00059B34`.
 
-## Placing things (not tried)
-Add our own container beside the spot rather than editing a shared base record (e.g. `Prewar_Locker_01` `00018F7B`). Get coordinates with `player.getpos x`, `y`, `z`. *(inferred)*
+- **Make the ingredient a plain item, not a wearable.** Crafting from a wearable broken veil crashed the game (cause not proven), and crafting from a worn dress left its look stuck on the player. Plain `MISC` copies fixed both. *(in game, 2026-11-26)*
+
+## Placing things
+See `fo4-world-placement`.
