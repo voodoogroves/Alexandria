@@ -3,7 +3,7 @@ name: fo4-xedit-scripting
 description: Writing xEdit Pascal build scripts - condition indices and flags, script API, masters, cross-plugin FormIDs.
 applies-to: [fo4-mod]
 kind: lookup
-verified: 2026-11-24
+verified: 2026-11-26
 ---
 xEdit source facts here were checked against `TES5Edit/TES5Edit` at commit `73f919a` (2026-11-23), mainly `Core/wbDefinitionsFO4.pas`, `Core/wbDefinitionsCommon.pas` and `xEdit/JvI/xejviScriptAdapter*.pas`; reread the source after an xEdit update. Dated entries say what was observed on the Deck.
 
@@ -54,6 +54,13 @@ Note `Target` is `1`, not `2`. Using `2` selects *Reference*.
 - A condition list cannot be created on a spell effect with `Add`; put the condition on the perk entry. *(2026-11-25)*
 - A helper that converts another plugin's FormIDs: `Ref` in `fo4-regalia-of-mystery/build/xedit/BuildVoice3.pas`.
 - `scripts/esp/esp.py` in Rhodes reads any plugin directly, including ones xEdit did not load.
+
+## A light (ESL-flagged) plugin from a script *(4.1.5f, 2026-11-26)*
+- `header := ElementByIndex(f, 0)`. **Before creating any record**, `SetElementNativeValues(header, 'HEDR\Next Object ID', $800)`; a new file otherwise numbers records from `000001`. Check that the first record got `000800`.
+- At the end set the flag: `SetElementNativeValues(header, 'Record Header\Record Flags', GetElementNativeValues(header, 'Record Header\Record Flags') or $200)`. The file stays `.esp`.
+- Read the saved file back: flag set, all own object IDs within `800` to `FFF`. The flag is bit `0x200` of the 4 bytes at offset 8, so it can be cleared on the saved file for a comparison test.
+- In game it loaded as a light plugin; overrides of exterior and interior cells, new placed references and a `DLCNukaWorld.esm` master all worked. *(in game)*
+- Working script: `fo4-regalia-of-mystery/build/xedit/BuildRegalia.pas`.
 
 ## Known unknowns
 
