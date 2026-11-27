@@ -1,6 +1,6 @@
 ---
 name: fo4-armor-and-clothing
-description: Armor and clothing items - underarmor slots, ballistic weave, sneak effects, conditions on enchantment effects, neck items, dress texture wrapping.
+description: Armor and clothing items - underarmor slots, ballistic weave, sneak effects, conditions on enchantment effects, neck items, glove and boot meshes, dress texture wrapping.
 applies-to: [fo4-mod]
 kind: lookup
 verified: 2026-11-24
@@ -14,6 +14,11 @@ Tags: *(in game)* tested by playing; *(xEdit)* read from the records. Source: th
 - The Surgical Mask (`000787DA`) uses slots 48 and 49 only, so hats work with a copy of it. *(in game)*
 - A `MISC` item cannot be worn. For a worn neck item, the Nuka-World Shock Collar (`06029AFA`) works as a base (it adds that DLC as a master); no base-game human neck item was found. *(in game for the collar)*
 - A copy of armor with `EITM` delivers a constant enchantment, and so a perk, while worn. *(in game)*
+
+## Gloves and boots (read from plugins and meshes, 2026-11-26; not tried in game)
+- No wearable glove-only item was found in the base game, the six DLCs or the installed Creation Club plugins (slots 34 and 35 appear on outfits and skins).
+- Many outfits have a separate glove mesh: list them with `baunpack <archive> --list .nif` and search for `glove`.
+- A suit mesh can also hold gloves as their own shape: female Nuka Girl suit, `DLC04\Clothes\NukaSpaceSuit\NukaSpaceSuitF_Body.nif`, shape `NukaSpaceGirl_Gloves:0` (first person: `NukaSpaceGirl_Gloves_1stPerson:0` in `NukaSpaceGirlF_Body_1stPerson.nif`). The male mesh has no separate glove shape, and neither has a separate boot shape.
 
 ## Stealth anchors *(xEdit)*
 - Sneak rank 1: `Mod Detection Sneak Skill` Add +20 and `Mod Detection Movement` x0.9. The Sneak Skill value reads as the "harder to detect" percentage.
