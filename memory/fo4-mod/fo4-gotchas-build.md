@@ -1,12 +1,12 @@
 ---
 name: fo4-gotchas-build
-description: Rules for building FO4 plugins with xEdit on the Deck without losing rounds. Read before writing or running a build script.
+description: Rules for building FO4 plugins and models on the Deck without losing rounds. Read before writing or running a build script.
 applies-to: [fo4-mod]
 kind: gotcha
-verified: 2026-11-25
+verified: 2026-11-27
 ---
 
-# Build gotchas (xEdit 4.1.5f, MO2, Steam Deck)
+# Build gotchas (xEdit 4.1.5f, own model scripts, MO2, Steam Deck)
 
 Detail: `fo4-xedit-scripting`, `fo4-deck-workflow`.
 
@@ -17,6 +17,10 @@ Detail: `fo4-xedit-scripting`, `fo4-deck-workflow`.
 - OMOD data is `ElementBySignature(o, 'DATA')`; by name it silently finds nothing.
 - Pick list entries by name, never by index.
 - Log every written value and stop with `FAIL` when one is wrong.
+
+## Own models (`fo4-nif-models`)
+- Rebuilding a model's string table: rewrite every string index. A lighting shader has two (material and root material). Miss one and the game crashes at random.
+- A model crashes the game: get a crash log (`fo4-testing`) before swapping parts.
 
 ## Running
 - MO2 must be closed before `ModOrganizer.ini` is edited, or it writes the old value back. Check from the host (see `fo4-deck-workflow`) and wait to be told, then have the person check **Applying script "<name>"**.

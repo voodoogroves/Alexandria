@@ -1,9 +1,9 @@
 ---
 name: fo4-testing
-description: In-game testing on the Deck - Test profile, console commands, measuring damage, unmanaged mods.
+description: In-game testing on the Deck - Test profile, console commands, measuring damage, crash logs, unmanaged mods.
 applies-to: [fo4-mod]
 kind: lookup
-verified: 2026-11-23
+verified: 2026-11-27
 ---
 Tags: *(in game)* tested by playing; *(xEdit)* read from the vanilla records; *(inferred)* not tested. Setup: Proton 11.0, FO4Edit 4.1.5f, game 1.11.240.
 
@@ -22,6 +22,17 @@ Tags: *(in game)* tested by playing; *(xEdit)* read from the vanilla records; *(
 
 - The SKK workshop target dummy shows damage numbers, never goes hostile, and takes any armor pieces: damage unarmored vs in the heavy combat chest shows the armor effect directly.
 - Difficulty to Normal and fixed; the in-game console accepts a paste.
+
+## Crash logs (game crashes with no dump; set up 2026-11-27)
+
+- **Addictol Crash Logger 1.7.0** wrote a readable report for game 1.11.240 under Proton: exception, call stack, registers, and the model file, material and records involved. *(in game)*
+- **It is a separate download** from the Addictol mod (Nexus 84214, engine fixes). Get it from the releases of github.com/Dear-Modding-FO4/AddictolCrashLogger.
+- Needs F4SE and **Address Library for F4SE Plugins** (Nexus 47327) for the game version.
+- MO2 mod layout, under `F4SE/Plugins/`: `AddictolCrashLogger.dll`, `AddictolCrashLogger.toml`, `msdia140.dll`, and `Fallout4.pdb` from the zip's `PDBs/<game version>/`. Automatic upload is off by default in the `.toml`.
+- Reports: `.../Documents/My Games/Fallout4/F4SE/crash-<date-time>.log` in the Proton prefix. `AddictolCrashLogger.log` only shows that it loaded.
+- Read the top first: exception line, then `POSSIBLE RELEVANT OBJECTS`, then `STACK`. Text in a pointer register means an out-of-range or overwritten reference.
+- It ran with the main Addictol also enabled; the logger alone is untested.
+- A test tool only: it does not make your mod depend on F4SE.
 
 ## Unmanaged mods
 
