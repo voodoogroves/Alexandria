@@ -18,6 +18,9 @@ Tags: *(in game)* tested by playing; *(read)* read from plugin or model files; *
 - A model written by our own script (skinned `BSSubIndexTriShape`, one bone `LArm_ForeArm1`, identity skin-to-bone transform, vertices in bone coordinates, all triangles in the fifth of five segments) loaded and sat where the offline preview put it. *(in game, 2026-11-26)* Writer: `scripts/nif/writeshield.py` in Rhodes.
 - A part cut from a larger armor model is open where it met the rest: it is **see-through from that side** until back faces are added; a second set of triangles with reversed winding and normals, just behind the first, made it solid. *(in game)*
 
+## Fist weapons on a suit
+- The "WaFists" mod makes fist weapons usable in power armor with new `WEAP` records whose `DNAM` animation type (byte 54) is 1 (one-handed sword), not 0 (hand to hand), keeping the unarmed keywords; its Deathclaw Gauntlet differs from vanilla in only that byte. *(read; that this byte is the cause is inferred)*
+
 ## Records and models *(read)*
 - `PowerArmorRace` has its own skeleton, `actors\PowerArmor\CharacterAssets\skeleton.nif`.
 - Slots used by power armor pieces: 30-39, 41-50, 52, 60. No armor of any race used 53, 56 or 57 (base game, DLC, Creation Club and the few mods present).

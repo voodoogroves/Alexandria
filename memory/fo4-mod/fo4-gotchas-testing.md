@@ -3,7 +3,7 @@ name: fo4-gotchas-testing
 description: Standing rules for assets, hand-offs and in-game tests. Read at the start of any FO4 mod work.
 applies-to: [fo4-mod]
 kind: gotcha
-verified: 2026-11-25
+verified: 2026-11-26
 ---
 
 # Asset and testing gotchas
@@ -16,7 +16,8 @@ Detail: `fo4-testing`, `fo4-deck-workflow`, `fo4-materials-and-models`.
 - Loose files need, in the profile's `fallout4custom.ini`, `[Archive]` with `bInvalidateOlderFiles=1` and an empty `sResourceDataDirsFinal=`.
 
 ## Hand-offs and tests
-- Console commands and paths go in fenced code blocks, one per paste target.
+- Anything the owner has to type or paste (console commands, IDs, paths, search text) goes in a fenced code block, one per paste target, with real IDs filled in where known: the Deck trackpad makes selecting text awkward. Not inside tables or inline code.
+- God mode (`tgm`) gives unlimited AP: turn it off before judging AP drain (fresh test saves often have it on).
 - Keep difficulty on Normal when measuring damage.
 - Record stats do not always match spawned actors; check in game.
 - Hits to kill is too noisy to judge a damage effect: compare per-hit numbers on the SKK dummy. The dummy cannot show a stagger; use a live enemy.
