@@ -19,7 +19,7 @@ Lessons (2026-11-23, xEdit 4.1.5f under Proton 11.0):
 - **The new plugin is written into the game's real `Data` folder**, not MO2's `overwrite` (xEdit uses the `S:` drive path, which MO2's virtual folder doesn't intercept). Move it into an MO2 mod folder afterwards; delete a stale copy from `Data` before re-running a build script.
 - **ESL flag:** a script can set it; see `fo4-xedit-scripting`.
 - **Log every step** in the script and write a log file to a home path; one failing step then shows where it stopped.
-- **An assistant can't see xEdit, MO2 or the game running.** `pgrep` from the VS Code Flatpak shell doesn't see processes inside Proton, so "nothing found" is not evidence that they're closed (2026-11-23: a plugin was judged "not saved" when xEdit was still open and saved a moment later). Ask the person whether they've closed everything, and check files by timestamp after they say so.
+- **Seeing whether xEdit, MO2 or the game is running.** Plain `pgrep`/`ps` from the VS Code Flatpak shell doesn't see processes inside Proton, so "nothing found" there means nothing (2026-11-23: a plugin was judged "not saved" when xEdit was still open). Ask the host instead (verified 2026-11-26: it listed `ModOrganizer.exe` and `Fallout4.exe` while they ran): `flatpak-spawn --host sh -c 'ps -eo args | grep -i -E "modorganizer|xedit|fo4edit|fallout4\.exe" | grep -v grep'`. An empty result is a snapshot: another session or the person may start one a moment later, and after an xEdit run still check files by timestamp.
 
 ## Editing MO2 settings by file
 
@@ -36,9 +36,13 @@ How a build or lookup round runs on the Deck, so each round costs the person as 
 5. **Commit as you go:** results into the project spec, a short checkpoint in Rhodes, general mechanics into the matching Alexandria `memory/fo4-mod/` doc; PR and merge each, then fast-forward the working branch.
 
 **Learned 2026-11-25:**
-- **MO2 left open during an ini edit writes its old value back**, and the next BUILD silently runs the previous script. `pgrep`/`ps` cannot see MO2, so wait for the person to say it is closed, and have them check the xEdit line **Applying script "<name>"**.
+- **MO2 left open during an ini edit writes its old value back**, and the next BUILD silently runs the previous script. Check from the host (above) and have the person confirm it is closed, then have them check the xEdit line **Applying script "<name>"**.
 - Editing the **contents** of the script the BUILD entry already points at needs no ini change and no MO2 restart.
 - Creation Club content downloaded through MO2 lands in the instance's `overwrite` folder; xEdit loaded only the `cc*` files in the real `Data` folder. `scripts/esp/esp.py` reads any plugin directly.
+
+## When MO2 must be closed (verified 2026-11-26)
+- **Closed:** editing `ModOrganizer.ini` or a profile's `modlist.txt` / `plugins.txt` / `loadorder.txt`.
+- **May stay open:** replacing a plugin inside a mod folder that is already enabled. Close the **game**, swap the file, start the game again; new records appeared. MO2 refresh (F5) if its view looks stale.
 
 ## Adding loose files (textures, materials) as an MO2 mod (verified 2026-11-24)
 

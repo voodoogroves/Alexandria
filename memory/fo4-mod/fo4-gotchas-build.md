@@ -19,7 +19,7 @@ Detail: `fo4-xedit-scripting`, `fo4-deck-workflow`.
 - Log every written value and stop with `FAIL` when one is wrong.
 
 ## Running
-- MO2 must be closed before `ModOrganizer.ini` is edited, or it writes the old value back. An assistant cannot see its process: wait to be told, then have the person check **Applying script "<name>"**.
+- MO2 must be closed before `ModOrganizer.ini` is edited, or it writes the old value back. Check from the host (see `fo4-deck-workflow`) and wait to be told, then have the person check **Applying script "<name>"**.
 - Editing the contents of the script already pointed at needs no ini change.
 - The plugin is written only if the save prompt is accepted, into the game's real `Data` folder. Use a new name for each run. After an aborted run, answer No or delete the partial plugin.
 - xEdit cannot see `/tmp`; use home paths (`Z:\home\deck\...`).
